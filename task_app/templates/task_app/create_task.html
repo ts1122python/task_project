@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="display-4 text-primary">{{ p_title }}<h1> 
+        <!-- display-4は文字の大きさ、text-primaryは文字の色（通常：青）-->
+        
+        <br>
+
+        <!-- タスク編集フォーム -->
+        <form action="{% url 'create_task' %}" method="post">
+        {% csrf_token %}
+        
+        <!-- フォーム全体のエラーメッセージ -->
+        {% if form.non_field_errors %}
+            <div class="alert alert-info" role="alert">
+                <ul>
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <!-- フォームのテーブル -->
+            <table class="table">
+            <!-- {{ form.as_table }}：ひとつ前 -->
+            {{ form.non_field_errors }}
+                <tbody>
+                    <tr>
+                        <th width="120">{{ form.title.label_tag }}</th>
+                        <td>{{ form.title }}</td>
+                    </tr>
+                    <tr>
+                        <th width="120">{{ form.work.label_tag }}</th>
+                        <td>{{ form.work }}</td>
+                    </tr>
+                    <tr>
+                        <th width="120" height="50">{{ form.boundary.label_tag }}</th>
+                        <td>{% for radiobutton in form.boundary %}
+                                {{ radiobutton }}
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th width="120" height="50">{{ form.category.label_tag }}</th>
+                        <td>
+                            {% for radiobutton in form.category %}
+                                {{ radiobutton }}
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th width="150">{{ form.reception_date.label_tag }}</th>
+                        <td>{{ form.reception_date }}</td>
+                    </tr>
+                    <tr>
+                        <th width="150">{{ form.due_date.label_tag }}</th>
+                        <td>{{ form.due_date }}</td>
+                    </tr>
+                    <tr>
+                        <th width="150">{{ form.work_progress.label_tag }}</th>
+                        <td>{{ form.work_progress }}</td>
+                    </tr>
+                    <tr>
+                        <th width="150">{{ form.option.label_tag }}</th>
+                        <td>{{ form.option }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        <!-- クリア/登録ボタン -->
+                <tr><th><td>
+                    <input type="submit" value="クリア" 
+                    class="btn btn-outline-secondary mt-2">
+                    <input type="submit" value="登録" 
+                    class="btn btn-primary mt-2">
+                </td></th></tr>
+            </table>
+
+        </form>
+    </div>
+
+        <!-- エラーメッセージ表示（フォームが無効な場合） -->
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        <ul>
+        {% for field in form %}
+            {% for error in field.errors %}
+            <li>{{ field.label }}: {{ error }}</li>
+            {% endfor %}
+        {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+        
+        <!-- キャンセルリンク（タスク一覧などに戻るリンク）-->
+        <a href="{% url 'schedule' %}">戻る</a>
+
+{% endblock %}
+
+
+
