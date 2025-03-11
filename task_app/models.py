@@ -7,21 +7,21 @@ class CustomUser(AbstractUser):
     my_goal = models.TextField(max_length=1000)
     
     def __str__(self):
-        return f'{self.name}({self.department})'
+        return f'{self.username}({self.department})'
     
     class Meta:
         ordering = ('id',)
 
 # タスクテーブルを管理
 BOUNDARY_CHOICES = [
-    ("OUT" , "外部") ,
-    ("IN" , "内部") ,
+    ("外部" , "外部") ,
+    ("内部" , "内部") ,
     ]
 
 CATEGORY_CHOICES = [
-    ("REGULAR" , "定例") ,
-    ("SHORT" , "単件") ,
-    ("LONG" , "長期") ,
+    ("定例" , "定例") ,
+    ("単件" , "単件") ,
+    ("長期" , "長期") ,
 ]
 
 class Task(models.Model):
@@ -33,7 +33,7 @@ class Task(models.Model):
     category = models.CharField(max_length=10, choices=CATEGORY_CHOICES)
     reception_date = models.DateField()
     due_date = models.DateField()
-    work_progress = models.BooleanField(default=False,)
+    work_progress = models.CharField(max_length=10, blank=False, )
     option = models.TextField(max_length=1000, blank=True, null=True,)
     
     def __str__(self):
@@ -53,7 +53,7 @@ class Comment(models.Model):
     pub_date = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return f'No.{self.id}:{self.comment} by{self.owner_user}'
+        return f'No.{self.id}:{self.comment} by{self.owner_user.username}'
     
     class Meta:
         ordering = ('pub_date',)

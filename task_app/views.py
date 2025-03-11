@@ -71,7 +71,7 @@ def edit_task(request, num):
 
 # タスク詳細
 def detail_task(request):
-    data = Task.objects.all()
+    data = Task.objects.all(id=num) # id=numの
     params = {
         'title':'タスク詳細',
         'data':data,
@@ -80,18 +80,16 @@ def detail_task(request):
 
 # タスク一覧
 #@login_required(login_url='/task_app/login')
-def task_list(request, page=1): # 初期設定のページは１ページ目
-    form = TaskForm(request.user)
-    msgs = Task.objects.all() # 全てのタスクを取得
-    max = 10 # 1ページあたりの表示数
-    paginate = Paginator(msgs, max) # ページネーションでページを取得
-    page_obj = paginate.get_page(page) # get_page(page) を呼ぶと、page目のPageインスタンスを取得します。
+def task_list(request): # 初期設定のページは１ページ目
+    tasks = Task.objects.all() # 全てのタスクを取得
+    max = 5 # 1ページあたりの表示数
+    paginator = Paginator(tasks, max) # ページネーションでページを取得
+    page_number = request.GET.get('page', 1)  # デフォルトは 1 ページ目
+    page_obj = paginator.get_page(page_number) # get_page(page) を呼ぶと、page目のPageインスタンスを取得します。
     
     params = {
         'title' : 'タスク一覧' ,
-        'login_user' : request.user ,
-        'form' : form ,
-        'contents' : page_obj ,
+        'tasks' : page_obj ,
     }
     return render(request, 'task_app/task_list.html', params)
 

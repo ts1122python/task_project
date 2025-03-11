@@ -18,12 +18,18 @@ class CustomUserCreationForm(UserCreationForm):
 
 # Taskのフォーム
 class TaskForm(forms.ModelForm):
-    
+    owner = forms.ModelChoiceField(
+        queryset=CustomUser.objects.all(), 
+        empty_label="担当者を選択",
+        label="担当者"
+    )    
+
     class Meta:
         model = Task
-        fields = '__all__'
-        #['title','work','boundary','category','reception_date', 'due_date','work_progress','option']
+        fields = 'owner','title','work','boundary','category','reception_date',\
+            'due_date','work_progress','option'
         widgets = {
+            'owner':forms.TextInput(attrs={'class':'form-control'}),
             'title':forms.TextInput(attrs={'class':'form-control'}),
             'work':forms.TextInput(attrs={'class':'form-control'}),
             'boundary':forms.RadioSelect(attrs={'class':'form-control'}),
@@ -37,6 +43,7 @@ class TaskForm(forms.ModelForm):
             'option':forms.TextInput(attrs={'class':'form-control'}),
         }
         labels = {
+            'owner':'担当者',
             'title': '業務名',
             'work': '内容',
             'boundary': '内部/外部',
