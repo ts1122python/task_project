@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="container">
-        <h1 class="display-4 text-primary">{{ p_title }}<h1> 
+        <h1 class="display-4 text-primary">{{ title }}<h1> 
         <!-- display-4は文字の大きさ、text-primaryは文字の色（通常：青）-->
         
         <br>
@@ -27,6 +27,10 @@
             <!-- {{ form.as_table }}：ひとつ前 -->
             {{ form.non_field_errors }}
                 <tbody>
+                    <tr>
+                        <th width="120">{{ form.owner.label_tag }}</th>
+                        <td>{{ form.owner }}</td>
+                    </tr>
                     <tr>
                         <th width="120">{{ form.title.label_tag }}</th>
                         <td>{{ form.title }}</td>
@@ -70,6 +74,7 @@
             </table>
 
         <!-- クリア/登録ボタン -->
+            <table>
                 <tr><th><td>
                     <input type="submit" value="クリア" 
                     class="btn btn-outline-secondary mt-2">

@@ -7,8 +7,11 @@ urlpatterns = [
     path('schedule/', views.schedule, name='schedule'),
     path('create_task/', views.create_task, name='create_task'),
     path('edit_task/<int:task_id>/', views.edit_task, name='edit_task'),
-    path('task_list/', views.task_list, name='task_list'),
+    path('delete_task/<int:task_id>/', views.delete_task, name='delete_task'),
     path('detail_task/<int:task_id>/', views.detail_task, name='detail_task'),
+    path('task_list/', views.task_list, name='task_list'),
+
+
 ]
 
 #

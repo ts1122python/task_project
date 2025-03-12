@@ -36,7 +36,7 @@ def user_login(request):
 
 # スケジュール関数
 def schedule(request):
-    pass
+    return render(request, 'task_app/schedule.html')
 
 # タスク作成関数
 def create_task(request):
@@ -44,10 +44,10 @@ def create_task(request):
         obj = Task()
         task = TaskForm(request.POST, instance=obj)
         task.save()
-        return redirect(reverse('detail_task'))
+        return redirect(reverse('detail_task',kwargs={'task_id': task_id}))
     
     params = {
-        'p_title':'タスク編集',
+        'title':'業務追加',
         'form': TaskForm(),
     }
     
@@ -74,6 +74,12 @@ def edit_task(request,task_id): # リクエストを受けて因数をtask_idと
         'form': task_form ,
     }
     return render(request, 'task_app/edit_task.html', params)
+
+# タスク削除
+def delete_task(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+    task.delete()
+    return redirect(reverse('task_list')) 
 
 # タスク詳細
 def detail_task(request,task_id):
@@ -104,8 +110,10 @@ def task_list(request): # 初期設定のページは１ページ目
 # ユーザー一覧
 #@login_required(login_url='/task_app/login')
 
-
 # プロフィール
+def my_profile(request):
+    pass
+
 
 # 成果
 

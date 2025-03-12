@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h1 class="display-4 text-primary">{{title}}</h1>
+    <br>
+    <table class="table">
+        <tr><th>担当者</th><td>{{ data.owner.username }}</td></tr>
+        <tr><th>業務名</th><td>{{data.title}}</td></tr>
+        <tr><th>業務内容</th><td>{{data.work}}</td></tr>
+        <tr><th>外部/内部</th><td>{{data.boundary}}</td></tr>
+        <tr><th>種類</th><td>{{data.category}}</td></tr>
+        <tr><th>受付日</th><td>{{data.reception_date|date:"Y年m月d日" }}</td></tr>
+        <tr><th>処理期日</th><td>{{data.due_date|date:"Y年m月d日" }}</td></tr>
+        <tr><th>進捗</th><td>{{data.work_progress}}</td></tr>
+        <tr><th>備考</th><td>{{data.option}}</td></tr>
+        
+        <tr><th></th><td>
+            <a href="{% url 'edit_task' data.id %}" class="btn btn-warning">編集</a>
+            <a href="{% url 'task_list' %}" class="btn btn-secondary">一覧へ戻る</a>
+        </td></tr>
+    </table>
+</div>
+{% endblock %}
