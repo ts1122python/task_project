@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.urls import reverse
 from django.core.paginator import Paginator
 from django.contrib.auth import login, authenticate
@@ -54,37 +54,44 @@ def create_task(request):
     return render(request, 'task_app/create_task.html', params)
 
 # タスク編集関数
-def edit_task(request, num):
-    obj = Task.objects.get(id=num) # taskにTaskモデルに存在するid=numのインスタンスを代入
+def edit_task(request,task_id): # リクエストを受けて因数をtask_idとして受け取る関数
+    obj = get_object_or_404(Task, id=task_id)
+        # objにTaskモデルに存在するidがtask_idのインスタンスをgetして代入
     if request.method == 'POST':
-        task = TaskForm(request.POST, instance=obj)
-        task.save()
-        return redirect(reverse('detail_task'))
+        task_form = TaskForm(request.POST, instance=obj) 
+            # taskにrequest.POSTを受けた場合、インスタンスに編集されたobjを代入
+        if task_form.is_valid():  # フォームが正しい場合のみ保存
+            task_form.save() 
+                #task_formの内容をデータベースに登録
+            return redirect(reverse('detail_task',kwargs={'task_id': task_id}))
+                # detail_taskにtask_idを引数にとってリダイレクトする
+    else:
+        task_form = TaskForm(instance=obj)
     
     params = {
         'title': 'タスク編集' ,
-        'id':'num' ,
-        'form': TaskForm(instance=obj)
+        'id': task_id ,
+        'form': task_form ,
     }
-    
     return render(request, 'task_app/edit_task.html', params)
 
 # タスク詳細
-def detail_task(request):
-    data = Task.objects.all(id=num) # id=numの
+def detail_task(request,task_id):
+    task_data = get_object_or_404(Task, id=task_id)
     params = {
-        'title':'タスク詳細',
-        'data':data,
+        'title' : 'タスク詳細' ,
+        'data' : task_data ,
+        'id' : task_id
     }
     return render(request,'task_app/detail_task.html', params)
 
 # タスク一覧
-#@login_required(login_url='/task_app/login')
+@login_required(login_url='/task_app/login')
 def task_list(request): # 初期設定のページは１ページ目
     tasks = Task.objects.all() # 全てのタスクを取得
     max = 5 # 1ページあたりの表示数
     paginator = Paginator(tasks, max) # ページネーションでページを取得
-    page_number = request.GET.get('page', 1)  # デフォルトは 1 ページ目
+    page_number = int(request.GET.get('page', 1))  # デフォルトは 1 ページ目
     page_obj = paginator.get_page(page_number) # get_page(page) を呼ぶと、page目のPageインスタンスを取得します。
     
     params = {
