@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <form action="{% url 'delete_task' task.id %}" method="post" onsubmit="return confirmDelete();">
+    <form action="{% url 'delete_task' data.id %}" method="post" onsubmit="return confirmDelete();">
         {% csrf_token %}
         <input type="submit" value="削除" class="btn btn-danger">
     </form>

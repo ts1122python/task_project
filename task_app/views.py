@@ -77,12 +77,12 @@ def edit_task(request,task_id): # リクエストを受けて因数をtask_idと
 
 # タスク削除
 def delete_task(request, task_id):
-    task = get_object_or_404(Task, id=task_id)
-    task.delete()
+    task_data = get_object_or_404(Task, id=task_id)
+    task_data.delete()
     return redirect(reverse('task_list')) 
 
 # タスク詳細
-def detail_task(request,task_id):
+def detail_task(request, task_id):
     task_data = get_object_or_404(Task, id=task_id)
     params = {
         'title' : 'タスク詳細' ,
