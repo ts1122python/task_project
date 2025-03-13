@@ -15,17 +15,17 @@
                 <th>未/済</th>
                 <th></th>
             </tr>
-            {% for item in tasks %}
+            {% for task in tasks %}
                 <tr>
-                    <td>{{ item.id }}</td>
-                    <td>{{ item.owner.username }}</td>
-                    <td>{{ item.title }}</td>
-                    <td>{{ item.boundary }}</td>
-                    <td>{{ item.category }}</td>
-                    <td>{{ item.due_date }}</td>
-                    <td>{{ item.work_progress }}</td>
-                    <td><a href="{% url 'detail_task' item.id %}" class="btn btn-primary">詳細</a></td>
-                    <td><a href="{% url 'edit_task' item.id %}" class="btn btn-success">編集</a></td>
+                    <td>{{ task.id }}</td>
+                    <td>{{ task.owner.username }}</td>
+                    <td>{{ task.title }}</td>
+                    <td>{{ task.boundary }}</td>
+                    <td>{{ task.category }}</td>
+                    <td>{{ task.due_date }}</td>
+                    <td>{{ task.work_progress }}</td>
+                    <td><a href="{% url 'detail_task' task.id %}" class="btn btn-primary">詳細</a></td>
+                    <td><a href="{% url 'edit_task' task.id %}" class="btn btn-success">編集</a></td>
                 </tr>
             {% empty %}
                 <tr>
