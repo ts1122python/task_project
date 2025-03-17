@@ -1,11 +1,22 @@
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.db import models
 
 # カスタムユーザーテーブルを管理
 class CustomUser(AbstractUser):
-    department = models.CharField(max_length=10)
+    department = models.CharField(max_length=10,)
     my_goal = models.TextField(max_length=1000)
-    
+
+    groups = models.ManyToManyField(
+        Group,
+        related_name='task_groups',  
+        blank=True,  # グループにユーザーが所属していなくても空のリストにする
+    )
+    user_permissions = models.ManyToManyField(
+        Permission,
+        related_name='task_permissions',  
+        blank=True,  # 権限がなくても空のリストにする
+    )
+
     def __str__(self):
         return f'{self.username}({self.department})'
     
@@ -34,6 +45,7 @@ class Task(models.Model):
     reception_date = models.DateField()
     due_date = models.DateField()
     work_progress = models.CharField(max_length=10, blank=False, )
+    completion_date = models.DateTimeField(null=True, blank=True)  # 完了日を追加
     option = models.TextField(max_length=1000, blank=True, null=True,)
     
     def __str__(self):
@@ -46,9 +58,9 @@ class Task(models.Model):
 # コメントテーブルを管理
 class Comment(models.Model):
     owner_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, \
-        related_name='comment_user') 
+        related_name='cmt_user') 
     owner_task = models.ForeignKey(Task, on_delete=models.CASCADE, \
-        related_name='comment_task') 
+        related_name='cmt_task') 
     comment = models.TextField(max_length=200,)
     pub_date = models.DateTimeField(auto_now_add=True)
     

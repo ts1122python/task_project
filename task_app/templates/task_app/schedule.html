@@ -2,8 +2,7 @@
 {% load static %}
 
 {% block content %}
-Powered by Event Calendar <a target="_blank" href="https://github.com/vkurko/calendar">https://github.com/vkurko/calendar</a>
-
+<!-- 
 <div id="ec"></div>
 
 <dialog id="dialog">
@@ -33,14 +32,15 @@ Powered by Event Calendar <a target="_blank" href="https://github.com/vkurko/cal
         </menu>
     </form>
 </dialog>
-
+-->
 <div class="container">
     <h2>Schedule</h2>
     <a href="{% url 'create_task' %}" class="btn btn-warning">業務追加</a>
 </div>
 {% endblock %} 
 
-<!-- Move JavaScript imports to the end of the body -->
+<!-- 
 <script src="https://cdn.jsdelivr.net/npm/@event-calendar/build@1.5.0/event-calendar.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.9/dayjs.min.js"></script>
-<script src="{% static 'js/calender.js' %}"></script>  <!-- If you have calender.js locally, use static -->
+<script src="{% static 'js/calender.js' %}"></script> 
+-->

@@ -1,5 +1,6 @@
 from django import forms
 from .models import CustomUser,Task,Comment
+from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.forms import UserCreationForm,UserChangeForm
 
@@ -53,7 +54,7 @@ class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = 'owner','title','work','boundary','category','reception_date',\
-            'due_date','work_progress','option'
+            'due_date','work_progress','completion_date','option'
         widgets = {
             'owner':forms.TextInput(attrs={'class':'form-control'}),
             'title':forms.TextInput(attrs={'class':'form-control'}),
@@ -66,6 +67,8 @@ class TaskForm(forms.ModelForm):
                 years=[x for x in range(2020, 2050)],months=MONTHS_JP),
             'work_progress': forms.Select(choices=[('未着手', '未着手'),\
                 ('進行中', '進行中'), ('完了', '完了')], attrs={'class': 'form-control'}),
+            'completion_date': forms.DateTimeInput(attrs={'class': 'form-control',\
+                'type': 'datetime-local'}), 
             'option':forms.TextInput(attrs={'class':'form-control'}),
         }
         labels = {
@@ -77,14 +80,33 @@ class TaskForm(forms.ModelForm):
             'reception_date': '受付日',
             'due_date': '期日',
             'work_progress': '進捗',
+            'completion_date': '完了日',
             'option': '備考',
         }
         help_texts = {
             'owner':'担当者名は必須です。',
             'title': '業務名は必須です。（50字以内）',
             'work': '業務内容を記載してください。（1,000字以内）',
+            'completion_date': '進捗が完了になったら自動入力'
         }
-        
+
+    def clean(self):
+        cleaned_data = super().clean()
+        work_progress = cleaned_data.get("work_progress")
+        completion_date = cleaned_data.get("completion_date")
+
+        # work_progress が完了の場合のみ、completion_date を必須にする
+        if work_progress == '完了' and not completion_date:
+            self.add_error('completion_date', '完了日を入力してください。')
+
+        # work_progress が完了でない場合、completion_date は空でも良い
+        if work_progress != '完了':
+            cleaned_data['completion_date'] = None  # 完了日を空に設定
+
+        return cleaned_data
+
+
+
 # Commentのフォーム
 class CommentForm(forms.ModelForm):
     class Meta:

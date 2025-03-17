@@ -114,8 +114,12 @@ def edit_task(request,task_id): # リクエストを受けて因数をtask_idと
     if request.method == 'POST':
         task_form = TaskForm(request.POST, instance=obj)  # taskにrequest.POSTを受けた場合、インスタンスに編集されたobjを代入
         if task_form.is_valid():  # フォームが正しい場合のみ保存
-            task_form.save()  #task_formの内容をデータベースに登録
-            return redirect(reverse('detail_task',kwargs={'task_id': task_id})) # detail_taskにtask_idを引数にとってリダイレクトする
+            task = task_form.save(commit=False)  # まだ保存しない
+            # work_progressが「完了」ならcompletion_dateを現在時刻に設定
+            if task.work_progress == '完了' and not task.completion_date:
+                task.completion_date = timezone.now()  # 現在時刻を設定
+            task_form.save()  #変更を保存
+            return redirect(reverse('detail_task',kwargs={'task_id': task.id})) # detail_taskにtask_idを引数にとってリダイレクトする
     else:
         task_form = TaskForm(instance=obj)
     
@@ -137,7 +141,7 @@ def delete_task(request, task_id):
 @login_required(login_url='/task_app/login')
 def detail_task(request, task_id):
     task = get_object_or_404(Task, id=task_id)
-    comments = task.comment_task.all()  # 'comment_task' は'related_name'
+    comments = task.cmt_task.all()  # 'cmt_task' は'related_name'
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():

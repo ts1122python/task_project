@@ -32,7 +32,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <th width="150">{{ ftask_rm.reception_date.label_tag }}</th>
+                        <th width="150">{{ task_form.reception_date.label_tag }}</th>
                         <td>{{ task_form.reception_date }}</td>
                     </tr>
                     <tr>
@@ -40,8 +40,12 @@
                         <td>{{ task_form.due_date }}</td>
                     </tr>
                     <tr>
-                        <th width="150">{{ formtask_rk_progress.label_tag }}</th>
+                        <th width="150">{{ task_form.work_progress.label_tag }}</th>
                         <td>{{ task_form.work_progress }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ task_form.completion_date.label_tag }}</th>
+                        <td>{{ task_form.completion_date }}</td>
                     </tr>
                     <tr>
                         <th width="150">{{ task_form.option.label_tag }}</th>
