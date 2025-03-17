@@ -5,6 +5,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from .models import Task,CustomUser
 from .forms import CustomUserCreationForm, CustomUserChangeForm, TaskForm, CommentForm
+import datetime
 
 
 # ユーザー登録
@@ -112,13 +113,24 @@ def create_task(request):
 def edit_task(request,task_id): # リクエストを受けて因数をtask_idとして受け取る関数
     obj = get_object_or_404(Task, id=task_id) # objにTaskモデルに存在するidがtask_idのインスタンスをgetして代入
     if request.method == 'POST':
+        if 'completion_date' in request.POST:
+            completion_date_str = request.POST['completion_date']
+            if len(completion_date_str) == 16:  # "YYYY-MM-DDTHH:MM" の場合
+                completion_date_str += ":00"  # 秒を補完する
+            request.POST = request.POST.copy()
+            request.POST['completion_date'] = completion_date_str
         task_form = TaskForm(request.POST, instance=obj)  # taskにrequest.POSTを受けた場合、インスタンスに編集されたobjを代入
+        print('POST出来てるかの確認')
+        print(f'completion_dateの入力値確認: {task_form['completion_date']}')
         if task_form.is_valid():  # フォームが正しい場合のみ保存
+            print('フォーム正しいならこれが表示')
             task = task_form.save(commit=False)  # まだ保存しない
+            print(type(task))
             # work_progressが「完了」ならcompletion_dateを現在時刻に設定
             if task.work_progress == '完了' and not task.completion_date:
+                print('test')
                 task.completion_date = timezone.now()  # 現在時刻を設定
-            task_form.save()  #変更を保存
+            task.save()  #変更を保存
             return redirect(reverse('detail_task',kwargs={'task_id': task.id})) # detail_taskにtask_idを引数にとってリダイレクトする
     else:
         task_form = TaskForm(instance=obj)
@@ -128,6 +140,7 @@ def edit_task(request,task_id): # リクエストを受けて因数をtask_idと
         'task_id': task_id ,
         'task_form': task_form ,
     }
+    print('elseに来ちゃってる')
     return render(request, 'task_app/edit_task.html', params)
 
 # タスク削除

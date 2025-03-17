@@ -49,7 +49,7 @@ class TaskForm(forms.ModelForm):
         queryset=CustomUser.objects.all(), 
         empty_label="担当者を選択",
         label="担当者"
-    )    
+    )   
 
     class Meta:
         model = Task
@@ -87,7 +87,6 @@ class TaskForm(forms.ModelForm):
             'owner':'担当者名は必須です。',
             'title': '業務名は必須です。（50字以内）',
             'work': '業務内容を記載してください。（1,000字以内）',
-            'completion_date': '進捗が完了になったら自動入力'
         }
 
     def clean(self):

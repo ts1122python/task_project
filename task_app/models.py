@@ -45,7 +45,7 @@ class Task(models.Model):
     reception_date = models.DateField()
     due_date = models.DateField()
     work_progress = models.CharField(max_length=10, blank=False, )
-    completion_date = models.DateTimeField(null=True, blank=True)  # 完了日を追加
+    completion_date = models.DateField(null=True, blank=True)  # 完了日を追加
     option = models.TextField(max_length=1000, blank=True, null=True,)
     
     def __str__(self):
