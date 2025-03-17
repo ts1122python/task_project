@@ -2,11 +2,45 @@
 {% load static %}
 
 {% block content %}
-<!-- カレンダーを表示するための div -->
-<div id="ec" style="width: 80%; margin: auto;"></div>
+Powered by Event Calendar <a target="_blank" href="https://github.com/vkurko/calendar">https://github.com/vkurko/calendar</a>
+
+<div id="ec"></div>
+
+<dialog id="dialog">
+    <form id="form" method="dialog">
+        <h2>Make Reservation</h2>
+        <h3 id="room-name"></h3>
+        <h3 id="date"></h3>
+
+        <div class="row">
+            <label for="start">Start:</label>
+            <input type="time" id="start" name="start-time">
+        </div>
+        
+        <div class="row">
+            <label for="end">End:</label>
+            <input type="time" id="end" name="end-time">
+        </div>
+
+        <div class="row">
+            <label for="comment">Comment:</label>
+            <textarea id="comment" name="comment"></textarea>
+        </div>
+    
+        <menu>
+            <button id="cancel" type="reset">Cancel</button>
+            <button id="confirm" type="submit">Confirm</button>
+        </menu>
+    </form>
+</dialog>
 
 <div class="container">
     <h2>Schedule</h2>
     <a href="{% url 'create_task' %}" class="btn btn-warning">業務追加</a>
 </div>
-{% endblock %}
+{% endblock %} 
+
+<!-- Move JavaScript imports to the end of the body -->
+<script src="https://cdn.jsdelivr.net/npm/@event-calendar/build@1.5.0/event-calendar.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.9/dayjs.min.js"></script>
+<script src="{% static 'js/calender.js' %}"></script>  <!-- If you have calender.js locally, use static -->

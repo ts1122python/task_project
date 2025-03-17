@@ -18,10 +18,34 @@
         
             <tr><th></th><td>
                 <a href="{% url 'edit_task' task.id %}" class="btn btn-warning">編集</a>
-                <a href="{% url 'task_list' %}" class="btn btn-secondary">一覧へ戻る</a>
+                <!-- タスク削除ボタンを含める -->
+                {% include 'task_app/delete_task.html' %}
             </td></tr>
         </table>
+        <a href="{% url 'task_list' %}" class="btn btn-secondary">一覧へ戻る</a>
     </div>
-    <!-- タスク削除ボタンを含める -->
-    {% include 'task_app/delete_task.html' %}
+
+
+    <!-- コメント一覧 -->
+    <dev class="container mt-4">
+        <h2>コメント一覧</h2>
+        {% for comment in comments %}
+        <div class="center-block">
+                <p><strong>{{ comment.owner_user.username }}</strong>（{{ comment.pub_date|date:"Y年m月d日 H:i" }}）</p>
+                <p>{{ comment.comment }}</p>
+        </div>
+        {% empty %}
+            <p>コメントはまだありません。</p>
+        {% endfor %}
+    </div>
+
+    <!-- コメント送信 -->
+    <div>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn=primary">コメントを送信</button>
+        </fotm>
+    </div>
+
     {% endblock %}

@@ -4,7 +4,7 @@ from django.core.paginator import Paginator
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from .models import Task,CustomUser
-from .forms import CustomUserCreationForm, CustomUserChangeForm, TaskForm
+from .forms import CustomUserCreationForm, CustomUserChangeForm, TaskForm, CommentForm
 
 
 # ユーザー登録
@@ -89,7 +89,6 @@ def edit_profile(request):
     return render(request, 'task_app/edit_profile.html', {'form': form })
 
 
-
 # スケジュール関数
 def schedule(request):
     return render(request, 'task_app/schedule.html')
@@ -133,15 +132,33 @@ def delete_task(request, task_id):
     task_data.delete()
     return redirect(reverse('task_list')) 
 
+
 # タスク詳細
+@login_required(login_url='/task_app/login')
 def detail_task(request, task_id):
-    task_data = get_object_or_404(Task, id=task_id)
+    task = get_object_or_404(Task, id=task_id)
+    comments = task.comment_task.all()  # 'comment_task' は'related_name'
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False) 
+            comment.owner_task = task 
+            comment.owner_user = request.user 
+            comment.save()
+            test = 'test'
+            return redirect('detail_task', task_id=task.id)
+    else:
+        form = CommentForm()
+
     params = {
         'title' : '業務詳細' ,
-        'task' : task_data ,
-        'id' : task_id
+        'task' : task ,
+        'id' : task_id ,
+        'comments' : comments ,
+        'form' : form ,
     }
     return render(request,'task_app/detail_task.html', params)
+
 
 # タスク一覧
 @login_required(login_url='/task_app/login')

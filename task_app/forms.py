@@ -84,8 +84,13 @@ class TaskForm(forms.ModelForm):
             'title': '業務名は必須です。（50字以内）',
             'work': '業務内容を記載してください。（1,000字以内）',
         }
-
         
-
-
 # Commentのフォーム
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = 'comment',
+        widgets = {
+            'comment': forms.Textarea(attrs={'class': 'form-control', \
+            'rows': 3, 'placeholder': 'コメントを入力...'})
+        }
