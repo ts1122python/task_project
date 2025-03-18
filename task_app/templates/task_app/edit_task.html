@@ -9,6 +9,14 @@
                 {{ task_form.non_field_errors }}
                 <tbody>
                     <tr>
+                        <th>{{ task_form.owner.label_tag }}</th>
+                        <td><select name="owner" id="id_owner" class="form-control">
+                            {% for user in task_form.fields.owner.queryset %}
+                                <option value="{{ user.id }}">{{ user.username }}</option>
+                            {% endfor %}
+                        </td>
+                    </select>
+                    <tr>
                         <th width="120">{{ task_form.title.label_tag }}</th>
                         <td>{{ task_form.title }}</td>
                     </tr>

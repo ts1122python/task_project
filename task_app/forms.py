@@ -50,11 +50,16 @@ class TaskForm(forms.ModelForm):
         empty_label="担当者を選択",
         label="担当者"
     )   
+    completion_date = forms.DateField(
+        required=False,
+        input_formats=['%Y-%m-%d'],  # `YYYY-MM-DD` 形式のみ許可
+        widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'})
+    )
 
     class Meta:
         model = Task
         fields = 'owner','title','work','boundary','category','reception_date',\
-            'due_date','work_progress','completion_date','option'
+            'due_date','work_progress','option'
         widgets = {
             'owner':forms.TextInput(attrs={'class':'form-control'}),
             'title':forms.TextInput(attrs={'class':'form-control'}),
@@ -67,8 +72,6 @@ class TaskForm(forms.ModelForm):
                 years=[x for x in range(2020, 2050)],months=MONTHS_JP),
             'work_progress': forms.Select(choices=[('未着手', '未着手'),\
                 ('進行中', '進行中'), ('完了', '完了')], attrs={'class': 'form-control'}),
-            'completion_date': forms.DateTimeInput(attrs={'class': 'form-control',\
-                'type': 'datetime-local'}), 
             'option':forms.TextInput(attrs={'class':'form-control'}),
         }
         labels = {
