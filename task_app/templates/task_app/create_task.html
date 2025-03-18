@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="container">
-        <h1>{{ title }}<h1> 
+        <h1>{{ title }}</h1> 
         <!-- display-4は文字の大きさ、text-primaryは文字の色（通常：青）-->
         
         <br>
@@ -74,14 +74,12 @@
             </table>
 
         <!-- クリア/登録ボタン -->
-            <table>
-                <tr><th><td>
+            <div class="mt-5 d-flex justify-content-center">
                     <input type="submit" value="クリア" 
-                    class="btn btn-outline-secondary mt-2">
+                    class="btn btn-outline-secondary mr-2">
                     <input type="submit" value="登録" 
-                    class="btn btn-info mt-2">
-                </td></th></tr>
-            </table>
+                    class="btn btn-info">
+            </div>
 
         </form>
     </div>
@@ -100,7 +98,9 @@
     {% endif %}
         
         <!-- キャンセルリンク（タスク一覧などに戻るリンク）-->
-        <a href="{% url 'schedule' %}">戻る</a>
+        <div class="text-center mt-4">
+            <a href="{% url 'schedule' %}" class="btn btn-outline-dark" style="min-width: 200px;">戻る</a>
+        </div>
 
 {% endblock %}
 
