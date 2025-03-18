@@ -2,15 +2,15 @@
 
 {% block content %}
 <div class="container">
-    <h1 class="display-4 text-primary">{{title}}</h1>
+    <h1>{{title}}</h1>
     <br>
     <table class="table">
         <tr><th>職員名</th><td>{{ user_data.username }}</td></tr>
         <tr><th>所属</th><td>{{ user_data.department }}</td></tr>
         <tr><th>個人目標</th><td>{{ user_data.my_goal }}</td></tr>
-        <tr><th></th><td>
-            <a href="{% url 'user_list' %}" class="btn btn-secondary">一覧へ戻る</a>
-        </td></tr>
     </table>
+    <div class="text-center">
+        <a href="{% url 'user_list' %}" class="btn btn-outline-dark btn-lg" style="min-width: 200px;">一覧へ戻る</a>
+    </div>
 </div>
 {% endblock %}

@@ -2,16 +2,16 @@
 
 {% block content %}
 <div class="container">
-    <h1 class="display-4 text-primary">{{title}}</h1>
+    <h1>マイプロフィール</h1>
     <br>
     <table class="table">
         <tr><th>職員名</th><td>{{ my_data.username }}</td></tr>
         <tr><th>所属</th><td>{{ my_data.department }}</td></tr>
         <tr><th>個人目標</th><td>{{ my_data.my_goal }}</td></tr>
-        <tr><th></th><td>
-            <a href="{% url 'edit_profile' %}" class="btn btn-secondary">編集</a>
-            <a href="{% url 'user_list' %}" class="btn btn-secondary">一覧へ戻る</a>
-        </td></tr>
     </table>
+    <div class="mt-5 d-flex flex-column align-items-center">
+        <a href="{% url 'edit_profile' %}" class="btn btn-info btn-lg">編集</a>
+        <a href="{% url 'user_list' %}" class="btn btn-outline-dark btn-lg" style="min-width: 200px;">一覧へ戻る</a>
+    </div>
 </div>
 {% endblock %}

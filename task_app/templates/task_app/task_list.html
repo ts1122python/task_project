@@ -3,7 +3,7 @@
 
 {% block content %}
     <div class="container">
-        <h1 class="display-4 text-primary">{{ title }}</h1> 
+        <h1>{{ title }}</h1> 
         <table class="table">
             <tr>
                 <th>ID</th>
@@ -24,8 +24,8 @@
                     <td>{{ task.category }}</td>
                     <td>{{ task.due_date|date:"Y年m月d日" }}</td>
                     <td>{{ task.work_progress }}</td>
-                    <td><a href="{% url 'detail_task' task.id %}" class="btn btn-primary">詳細</a></td>
-                    <td><a href="{% url 'edit_task' task.id %}" class="btn btn-success">編集</a></td>
+                    <td><a href="{% url 'detail_task' task.id %}"class="btn btn-outline-dark btn-lg" style="min-width: 200px;">詳細</a></td>
+                    <td><a href="{% url 'edit_task' task.id %}" class="btn btn-info btn-lg" style="min-width: 200px;">編集</a></td>
                 </tr>
             {% empty %}
                 <tr>

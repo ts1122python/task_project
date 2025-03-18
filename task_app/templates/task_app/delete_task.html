@@ -9,7 +9,7 @@
 <body>
     <form action="{% url 'delete_task' task.id %}" method="post" onsubmit="return confirmDelete();">
         {% csrf_token %}
-        <input type="submit" value="削除" class="btn btn-danger">
+        <input type="submit" value="削除" class="btn btn-dark btn-lg">
     </form>
     
     <script>

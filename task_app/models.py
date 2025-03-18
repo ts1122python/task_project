@@ -55,6 +55,14 @@ class Task(models.Model):
     class Meta:
         ordering = ('id',)
 
+
+# イベントテーブルを管理
+class Event(models.Model):
+    start_date = models.DateField()
+    end_date = models.DateField()
+    event_name = models.CharField(max_length=200)
+
+
 # コメントテーブルを管理
 class Comment(models.Model):
     owner_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, \

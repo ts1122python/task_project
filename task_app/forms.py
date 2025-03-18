@@ -48,12 +48,14 @@ class TaskForm(forms.ModelForm):
     owner = forms.ModelChoiceField(
         queryset=CustomUser.objects.all(), 
         empty_label="担当者を選択",
-        label="担当者"
+        label="担当者",
+        widget=forms.Select(attrs={'class': 'form-control', 'style': 'font-size: 14px;'})
     )   
     completion_date = forms.DateField(
         required=False,
         input_formats=['%Y-%m-%d'],  # `YYYY-MM-DD` 形式のみ許可
-        widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'})
+        label="完了日",
+        widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date', 'style': 'font-size: 14px;'})
     )
 
     class Meta:
@@ -61,18 +63,17 @@ class TaskForm(forms.ModelForm):
         fields = 'owner','title','work','boundary','category','reception_date',\
             'due_date','work_progress','option'
         widgets = {
-            'owner':forms.TextInput(attrs={'class':'form-control'}),
-            'title':forms.TextInput(attrs={'class':'form-control'}),
-            'work':forms.TextInput(attrs={'class':'form-control'}),
-            'boundary':forms.RadioSelect(attrs={'class':'form-control'}),
-            'category':forms.RadioSelect(attrs={'class':'form-control'}),
-            'reception_date':forms.SelectDateWidget(attrs={'class':'form-control'},\
+            'title':forms.TextInput(attrs={'class':'form-control', 'style': 'font-size: 14px;'}),
+            'work':forms.Textarea(attrs={'class':'form-control', 'style': 'font-size: 14px;'}),
+            'boundary':forms.RadioSelect(),
+            'category':forms.RadioSelect(),
+            'reception_date':forms.SelectDateWidget(attrs={'class':'form-control w-auto', 'style': 'font-size: 14px;'},\
                 years=[x for x in range(2020, 2050)],months=MONTHS_JP),
-            'due_date':forms.SelectDateWidget(attrs={'class':'form-control'},\
+            'due_date':forms.SelectDateWidget(attrs={'class':'form-control w-auto', 'style': 'font-size: 14px;'},\
                 years=[x for x in range(2020, 2050)],months=MONTHS_JP),
             'work_progress': forms.Select(choices=[('未着手', '未着手'),\
-                ('進行中', '進行中'), ('完了', '完了')], attrs={'class': 'form-control'}),
-            'option':forms.TextInput(attrs={'class':'form-control'}),
+                ('進行中', '進行中'), ('完了', '完了')], attrs={'class': 'form-control w-auto', 'style': 'font-size: 14px;'}),
+            'option':forms.Textarea(attrs={'class':'form-control', 'style': 'font-size: 14px;'}),
         }
         labels = {
             'owner':'担当者',
@@ -83,7 +84,6 @@ class TaskForm(forms.ModelForm):
             'reception_date': '受付日',
             'due_date': '期日',
             'work_progress': '進捗',
-            'completion_date': '完了日',
             'option': '備考',
         }
         help_texts = {
