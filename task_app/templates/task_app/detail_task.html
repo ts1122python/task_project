@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}  
-    <div class="container">
+    <div class="mb-5">
         <h1>{{title}}</h1>
         <br>
         <table class="table">
@@ -30,12 +30,12 @@
 
 
     <!-- コメント一覧 -->
-    <dev class="container mt-4">
-        <h2>コメント一覧</h2>
+    <div class="mt-4">
+        <h2><span>コメント一覧</span></h2>
         {% for comment in comments %}
-        <div class="center-block">
-                <p><strong>{{ comment.owner_user.username }}</strong>（{{ comment.pub_date|date:"Y年m月d日 H:i" }}）</p>
-                <p>{{ comment.comment }}</p>
+        <div class="comment-post">
+                <p><span class="font-weight-bold text-info">{{ comment.owner_user.username }}</span><span class="text-muted small">（{{ comment.pub_date|date:"Y年m月d日 H:i" }}）</span></p>
+                <div>{{ comment.comment }}</div>
         </div>
         {% empty %}
             <p>コメントはまだありません。</p>
@@ -44,11 +44,11 @@
 
     <!-- コメント送信 -->
     <div>
-        <form method="post">
+        <form method="post" class="mt-4">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class="btn btn=primary btn-lg">コメントを送信</button>
-        </fotm>
+            <button type="submit" class="btn btn-dark btn-lg">コメントを送信</button>
+        </form>
     </div>
 
-    {% endblock %}
+{% endblock %}

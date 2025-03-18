@@ -11,6 +11,15 @@ body {
         padding-bottom: 8px;
         margin-bottom: 32px;
     }
+    h2{
+        margin-bottom: 40px;
+        span {
+            color:#292929;
+            border-bottom: #16abb4 solid 4px;
+            font-weight: 700;
+            padding-bottom: 4px;
+        }
+    } 
     th,td {
         font-size: 20px;
         color:#292929;
@@ -18,5 +27,13 @@ body {
     .form-area {
         display: flex;
         column-gap: 24px;
+    }
+    .comment-post {
+        padding: 12px;
+        border: #17a2b8 solid 1px;
+        border-radius: 4px;   
+    }
+    .comment-post:not(:last-child) {
+        margin-bottom: 12px;
     }
 }

@@ -15,7 +15,7 @@ MONTHS_JP = {
 class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = CustomUser
-        fields = "username", "department", "my_goal" # passwordは設定しない
+        fields = ("username", "department", "my_goal") # passwordは設定しない
         widgets = {
             'username':forms.TextInput(attrs={'class':'form-control'}),
             'department':forms.TextInput(attrs={'class':'form-control'}),
