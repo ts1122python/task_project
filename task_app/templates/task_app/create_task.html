@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="container">
-        <h1 class="display-4 text-primary">{{ p_title }}<h1> 
+        <h1>{{ title }}</h1> 
         <!-- display-4は文字の大きさ、text-primaryは文字の色（通常：青）-->
         
         <br>
@@ -25,58 +25,61 @@
         <!-- フォームのテーブル -->
             <table class="table">
             <!-- {{ form.as_table }}：ひとつ前 -->
-            {{ form.non_field_errors }}
+            {{ task_form.non_field_errors }}
                 <tbody>
                     <tr>
-                        <th width="120">{{ form.title.label_tag }}</th>
-                        <td>{{ form.title }}</td>
+                        <th width="120">{{ task_form.owner.label_tag }}</th>
+                        <td>{{ task_form.owner }}</td>
                     </tr>
                     <tr>
-                        <th width="120">{{ form.work.label_tag }}</th>
-                        <td>{{ form.work }}</td>
+                        <th width="120">{{ task_form.title.label_tag }}</th>
+                        <td>{{ task_form.title }}</td>
                     </tr>
                     <tr>
-                        <th width="120" height="50">{{ form.boundary.label_tag }}</th>
-                        <td>{% for radiobutton in form.boundary %}
+                        <th width="120">{{ task_form.work.label_tag }}</th>
+                        <td>{{ task_form.work }}</td>
+                    </tr>
+                    <tr>
+                        <th width="120" height="50">{{ task_form.boundary.label_tag }}</th>
+                        <td>{% for radiobutton in task_form.boundary %}
                                 {{ radiobutton }}
                             {% endfor %}
                         </td>
                     </tr>
                     <tr>
-                        <th width="120" height="50">{{ form.category.label_tag }}</th>
+                        <th width="120" height="50">{{ task_form.category.label_tag }}</th>
                         <td>
-                            {% for radiobutton in form.category %}
+                            {% for radiobutton in task_form.category %}
                                 {{ radiobutton }}
                             {% endfor %}
                         </td>
                     </tr>
                     <tr>
-                        <th width="150">{{ form.reception_date.label_tag }}</th>
-                        <td>{{ form.reception_date }}</td>
+                        <th width="150">{{ task_form.reception_date.label_tag }}</th>
+                        <td>{{ task_form.reception_date }}</td>
                     </tr>
                     <tr>
-                        <th width="150">{{ form.due_date.label_tag }}</th>
-                        <td>{{ form.due_date }}</td>
+                        <th width="150">{{ task_form.due_date.label_tag }}</th>
+                        <td>{{ task_form.due_date }}</td>
                     </tr>
                     <tr>
-                        <th width="150">{{ form.work_progress.label_tag }}</th>
-                        <td>{{ form.work_progress }}</td>
+                        <th width="150">{{ task_form.work_progress.label_tag }}</th>
+                        <td>{{ task_form.work_progress }}</td>
                     </tr>
                     <tr>
-                        <th width="150">{{ form.option.label_tag }}</th>
-                        <td>{{ form.option }}</td>
+                        <th width="150">{{ task_form.option.label_tag }}</th>
+                        <td>{{ task_form.option }}</td>
                     </tr>
                 </tbody>
             </table>
 
         <!-- クリア/登録ボタン -->
-                <tr><th><td>
+            <div class="mt-5 d-flex justify-content-center">
                     <input type="submit" value="クリア" 
-                    class="btn btn-outline-secondary mt-2">
+                    class="btn btn-outline-secondary mr-2">
                     <input type="submit" value="登録" 
-                    class="btn btn-primary mt-2">
-                </td></th></tr>
-            </table>
+                    class="btn btn-info">
+            </div>
 
         </form>
     </div>
@@ -95,7 +98,9 @@
     {% endif %}
         
         <!-- キャンセルリンク（タスク一覧などに戻るリンク）-->
-        <a href="{% url 'schedule' %}">戻る</a>
+        <div class="text-center mt-4">
+            <a href="{% url 'schedule' %}" class="btn btn-outline-dark" style="min-width: 200px;">戻る</a>
+        </div>
 
 {% endblock %}
 

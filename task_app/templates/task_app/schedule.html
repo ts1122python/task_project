@@ -1,8 +1,67 @@
-{% extends 'base.html' %}
 
-{% block content %}
-<div class="container">
-    <h2>Schedule</h2>
-    
-</div>
-{% endblock %}
+<html lang="ja">
+<head>
+    <meta charset='utf-8' />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Project</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js'></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            var calendarEl = document.getElementById('calendar');
+        
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                locale: 'ja',
+                height: 650,
+                businessHours: true,
+        
+                // 日付をクリック、または範囲を選択したイベント
+                selectable: true,
+                select: function (info) {
+                    //alert("selected " + info.startStr + " to " + info.endStr);
+                
+                    //入力ダイアログ
+                    const eventName = prompt("業務を入力してください")
+                
+                    if (eventName) {
+                        //イベントの追加
+                        calendar.addEvent({
+                            title: eventName,
+                            start: info.start,
+                            end: info.end,
+                            allDay: true,
+                        })
+                    }
+                },
+            });
+        
+            calendar.render();
+        });
+    </script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Task Project</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item"><a class="nav-link" href={% url 'my_profile' %}>My Profile</a></li>
+                    <li class="nav-item"><a class="nav-link" href={% url 'schedule' %}>Schedule</a></li>
+                    <li class="nav-item"><a class="nav-link" href={% url 'task_list' %}>Task List</a></li>
+                    <li class="nav-item"><a class="nav-link" href={% url 'user_list' %}>User List</a></li>
+                    <li class="nav-item"><a class="nav-link" href={% url 'logout' %}>Logout</a></li>
+                </ul>
+            </div>
+    </nav>
+    <div class="my-4 ml-5">
+        <a href="{% url 'create_task' %}" class="btn btn-info btn-lg">業務追加</a>
+    </div>
+    <div id='calendar'></div>
+    <footer>
+        <div class="text-center text-muted p-4"><small>&copy; 2025 Tsukuni Saori All Rights Reserved.</small></div>
+    </footer>
+</body>
+
+</html>
