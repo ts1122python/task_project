@@ -6,7 +6,7 @@
         <h1>{{title}}</h1>
         <br>
         <table class="table">
-            <tr><th>担当者</th><td>{{ task.owner.username }}</td></tr>
+            <tr><th>担当者</th><td>{{ task.owner.first_name }}{{ task.owner.last_name }}</td></tr>
             <tr><th>業務名</th><td>{{ task.title }}</td></tr>
             <tr><th>業務内容</th><td>{{ task.work }}</td></tr>
             <tr><th>外部/内部</th><td>{{ task.boundary }}</td></tr>

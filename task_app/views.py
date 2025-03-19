@@ -11,18 +11,6 @@ from .forms import CustomUserCreationForm, CustomUserChangeForm, TaskForm, Comme
 import datetime
 
 
-# ユーザー登録
-def register(request):
-    if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST, request.FILES)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect(reverse('profile_admin'))
-    else:
-        form = CustomUserCreationForm()
-    return render(request, 'accounts_app/register.html', {'form': form})
-
 
 # ユーザーログイン
 def user_login(request):

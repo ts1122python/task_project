@@ -13,7 +13,7 @@
         {% for user in users %}
             <tr>
                 <td>{{ user.id }}</td>
-                <td>{{ user.username }}</td>
+                <td>{{ user.first_name }}{{ user.last_name }}</td>
                 <td>{{ user.department }}</td>
                 <td><a href="{% url 'profile' user.id %}" class="btn btn-outline-dark" >閲覧</a></td>
             </tr>

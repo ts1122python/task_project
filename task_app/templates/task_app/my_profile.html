@@ -5,7 +5,7 @@
     <h1>マイプロフィール</h1>
     <br>
     <table class="table">
-        <tr><th>職員名</th><td>{{ my_data.username }}</td></tr>
+        <tr><th>職員名</th><td>{{ task.owner.first_name }}{{ task.owner.last_name }}</td></tr>
         <tr><th>所属</th><td>{{ my_data.department }}</td></tr>
         <tr><th>個人目標</th><td>{{ my_data.my_goal }}</td></tr>
     </table>
