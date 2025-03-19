@@ -6,39 +6,61 @@ from django.contrib.auth.forms import UserCreationForm,UserChangeForm
 
 # 日本語の月名リスト（1月～12月）
 MONTHS_JP = {
-    1: "1月", 2: "2月", 3: "3月", 4: "4月", 5: "5月", 6: "6月",
-    7: "7月", 8: "8月", 9: "9月", 10: "10月", 11: "11月", 12: "12月"
+    1: '1月', 2: '2月', 3: '3月', 4: '4月', 5: '5月', 6: '6月',
+    7: '7月', 8: '8月', 9: '9月', 10: '10月', 11: '11月', 12: '12月'
 }
 
 
 # CustomUserのフォーム
 class CustomUserCreationForm(UserCreationForm):
+    name = forms.CharField(required=False, disabled=True)
+
     class Meta(UserCreationForm.Meta):
         model = CustomUser
-        fields = ("username", "department", "my_goal") # passwordは設定しない
+        fields = ('username', 'first_name', 'last_name', 'department', 'my_goal') # passwordは設定しない
         widgets = {
             'username':forms.TextInput(attrs={'class':'form-control'}),
+            'first_name':forms.TextInput(attrs={'class':'form-control'}),
+            'last_name':forms.TextInput(attrs={'class':'form-control'}),
             'department':forms.TextInput(attrs={'class':'form-control'}),
             'my_goal':forms.TextInput(attrs={'class':'form-control'}),
         }
         labels = {
-            "username": "名前",
-            "department": "所属",
-            "my_goal": "個人目標",
+            'username': '名前',
+            'department': '所属',
+            'my_goal': '個人目標',
         }
-        help_texts = {
-            "username": "名前は必須です。",
-            "department": "所属は必須です。",
-        }
-
+ 
     def __init__(self, *args, **kwargs):
         super(CustomUserCreationForm, self).__init__(*args, **kwargs)
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        first_name = cleaned_data.get('first_name')
+        last_name = cleaned_data.get('last_name')
+
+        # first_nameとlast_nameを結合してnameを作成
+        if first_name and last_name:
+            cleaned_data['name'] = f"{first_name} {last_name}"
+        return cleaned_data
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        # nameの結合結果をCustomUserのusernameなどにセットする場合
+        first_name = self.cleaned_data.get('first_name')
+        last_name = self.cleaned_data.get('last_name')
+        if first_name and last_name:
+            user.username = f"{first_name} {last_name}"  # 必要に応じて変更
+
+        if commit:
+            user.save()
+        return user
 
 
 class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = CustomUser
-        fields = "username", "department", "my_goal" # passwordは設定しない
+        fields = 'username', 'first_name', 'last_name', 'department', 'my_goal' # passwordは設定しない
         
 
 

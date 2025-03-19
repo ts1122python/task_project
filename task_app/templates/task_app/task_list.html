@@ -18,7 +18,7 @@
             {% for task in tasks %}
                 <tr>
                     <td>{{ task.id }}</td>
-                    <td>{{ task.owner.username }}</td>
+                    <td>{{ task.owner.first_name }}{{ task.owner.last_name }}</td>
                     <td>{{ task.title }}</td>
                     <td>{{ task.boundary }}</td>
                     <td>{{ task.category }}</td>
